@@ -1,0 +1,98 @@
+{
+  "name": "vscode-kiroku",
+  "displayName": "Kiroku",
+  "description": "",
+  "publisher": "sddd3",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "keywords": [
+    "Timer",
+    "Pomodoro",
+    "Task",
+    "Productivity"
+  ],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./dist/extension.js",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "bugs": {
+    "url": "hhttps://github.com/sddd3/vscode-kiroku/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sddd3/vscode-kiroku"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "Kiroku.run",
+        "title": "Kiroku: Run"
+      },
+      {
+        "command": "Kiroku.pause",
+        "title": "Kiroku: Pause"
+      },
+      {
+        "command": "Kiroku.reset",
+        "title": "Kiroku: Reset"
+      },
+      {
+        "command": "Kiroku.config",
+        "title": "Kiroku: Config"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Configuration of kiroku ",
+      "properties": {
+        "kiroku.time.running": {
+          "type": "number",
+          "default": 1,
+          "description": "Time of work, in minutes."
+        },
+        "kiroku.time.interval": {
+          "type": "number",
+          "default": 5,
+          "description": "break time, in minutes"
+        },
+        "kiroku.time.taskName": {
+          "type": "string",
+          "default": "",
+          "description": "task's name."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.0.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.75.0",
+    "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "@typescript-eslint/parser": "^5.45.0",
+    "@vscode/test-electron": "^2.2.0",
+    "eslint": "^8.28.0",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.1.0",
+    "prettier": "^2.8.2",
+    "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "zod": "^3.21.4"
+  }
+}
