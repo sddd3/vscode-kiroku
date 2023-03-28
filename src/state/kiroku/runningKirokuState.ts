@@ -17,7 +17,7 @@ export class RunningKirokuState extends KirokuState {
 
   private constructor(kiroku: Kiroku) {
     super(kiroku);
-    this.time = Math.floor(workspace.getConfiguration('kiroku').time.interval * 60000);
+    this.time = Math.floor(workspace.getConfiguration('kiroku').time.running * 60000);
     this.timer = new Timer(this);
   }
 
