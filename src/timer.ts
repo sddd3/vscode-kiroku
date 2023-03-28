@@ -31,7 +31,7 @@ export class Timer {
         this.timerState.start(this, this.kirokuState.color);
         if (this.remainingDuration <= 0) {
           this.reset();
-          this.kirokuState.done();
+          this.kirokuState.done(this.kirokuState.time / 60000);
         }
       }, 1000);
     }
@@ -48,6 +48,12 @@ export class Timer {
   public reset() {
     this.timerState.reset(this, StartTimerState.getInstance(), this.kirokuState.color);
     Renderer.getInstance().changeIcon(PauseTimerState.getInstance());
+  }
+
+  public finish() {
+    const elapsedTime = Math.ceil(this.kirokuState.time - this.remainingDuration / 60000);
+    this.reset();
+    this.kirokuState.done(elapsedTime);
   }
 
   public changeState(state: TimerState) {

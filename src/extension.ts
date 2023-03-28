@@ -59,11 +59,15 @@ const registCommands = (context: ExtensionContext, kiroku: Kiroku) => {
     kiroku.reset();
   });
 
+  const finish = commands.registerCommand('Kiroku.finish', () => {
+    kiroku.finish();
+  });
+
   const setConfig = commands.registerCommand('Kiroku.config', () => {
     commands.executeCommand('workbench.action.openSettings', 'Kiroku');
   });
 
-  context.subscriptions.push(run, pause, reset, setConfig);
+  context.subscriptions.push(run, pause, reset, finish, setConfig);
 };
 
 /**
@@ -82,9 +86,13 @@ const registCommandsError = (context: ExtensionContext) => {
     commands.executeCommand('workbench.action.openSettings', 'Kiroku');
   });
 
+  const finish = commands.registerCommand('Kiroku.finish', () => {
+    commands.executeCommand('workbench.action.openSettings', 'Kiroku');
+  });
+
   const setConfig = commands.registerCommand('Kiroku.config', () => {
     commands.executeCommand('workbench.action.openSettings', 'Kiroku');
   });
 
-  context.subscriptions.push(run, pause, reset, setConfig);
+  context.subscriptions.push(run, pause, reset, finish, setConfig);
 };

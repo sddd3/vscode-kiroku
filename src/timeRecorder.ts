@@ -17,10 +17,12 @@ export class TimeRecorder {
    * Record work time
    * @param kiroku
    */
-  public async recordTask(kiroku: Kiroku) {
+  public async recordTask(kiroku: Kiroku, elapsedTime: number) {
     if (!kiroku[this.taskName]) {
       kiroku = await this.createNewTask(kiroku);
     }
+
+    const time = elapsedTime ? elapsedTime : this.time;
 
     const dateObj = new Date();
     const date = `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1).toString().padStart(2, '0')}-${dateObj
@@ -30,14 +32,14 @@ export class TimeRecorder {
     if (0 < kiroku[this.taskName].done.length) {
       const index = kiroku[this.taskName].done.findIndex((task) => task.date === date);
       if (0 <= index) {
-        kiroku[this.taskName].done[index].time += this.time;
+        kiroku[this.taskName].done[index].time += time;
       } else {
-        kiroku[this.taskName].done.push({ time: this.time, date });
+        kiroku[this.taskName].done.push({ time: time, date });
       }
     } else {
-      kiroku[this.taskName].done.push({ time: this.time, date });
+      kiroku[this.taskName].done.push({ time: time, date });
     }
-    kiroku[this.taskName].all = Number(kiroku[this.taskName].all) + this.time;
+    kiroku[this.taskName].all = Number(kiroku[this.taskName].all) + time;
 
     this.export(JSON.stringify(kiroku));
   }

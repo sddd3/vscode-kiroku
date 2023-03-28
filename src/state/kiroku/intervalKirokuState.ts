@@ -1,30 +1,24 @@
 import { window, workspace } from 'vscode';
 
 import { Kiroku } from '../../kiroku';
-import { Renderer } from '../../renderer';
 import { Timer } from '../../timer';
 import { PauseTimerState } from '../timer/pauseTimerState';
-import { KirokuState } from './kirokuState';
+import { KirokuState } from './abstractKirokuState';
 import { RunningKirokuState } from './runningKirokuState';
 
-export class IntervalKirokuState implements KirokuState {
+export class IntervalKirokuState extends KirokuState {
   private static instance: IntervalKirokuState;
   // Value retrieved from settings. break time.
   public readonly time: number;
   // Timer instance
   public timer: Timer;
-  // Kiroku instance
-  private readonly kiroku: Kiroku;
-  // Instance of a class that displays the time on the status bar
-  private renderer: Renderer;
   // Text color when displayed in status bar
   public readonly color = '#ff9e3d';
 
   private constructor(kiroku: Kiroku) {
+    super(kiroku);
     this.time = Math.floor(workspace.getConfiguration('kiroku').time.interval * 60000);
     this.timer = new Timer(this);
-    this.kiroku = kiroku;
-    this.renderer = Renderer.getInstance();
   }
 
   /**
@@ -53,19 +47,12 @@ export class IntervalKirokuState implements KirokuState {
   /**
    * Process when timer ends.
    */
-  public done() {
+  public done(elapsedTime: number) {
     const runningState = RunningKirokuState.getInstance(this.kiroku);
-    this.kiroku.changeState(runningState);
+    this.kiroku.changeState(runningState, elapsedTime);
     this.kiroku.initView(runningState);
     this.renderer.changeCommand({ isPaused: true, color: runningState.color });
     window.showInformationMessage('Break time is finished.');
-  }
-
-  /**
-   * Pause timer
-   */
-  public pause() {
-    this.timer.pause();
   }
 
   /**

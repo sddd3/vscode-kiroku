@@ -39,25 +39,32 @@ export class Kiroku {
   }
 
   /**
+   * Finish current state
+   */
+  public finish() {
+    this.state.finish();
+  }
+
+  /**
    * Record work time
    */
-  private async record() {
+  private async record(elapsedTime: number) {
     if (workspace.getConfiguration('kiroku').time.taskName === '') return;
 
     const timeRecorder = new TimeRecorder();
     const json = await timeRecorder.import();
     if (!json) return;
 
-    timeRecorder.recordTask(json);
+    timeRecorder.recordTask(json, elapsedTime);
   }
 
   /**
    * Change Kiroku status
    * @param state Running, Pause
    */
-  public changeState(state: KirokuState) {
+  public changeState(state: KirokuState, elapsedTime: number) {
     if (state instanceof IntervalKirokuState) {
-      this.record();
+      this.record(elapsedTime);
     }
 
     this.state = state;
