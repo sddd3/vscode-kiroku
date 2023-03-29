@@ -49,11 +49,9 @@ export class Renderer {
    * rendering function
    */
   public render(milliseconds: number) {
-    // milliseconds % 60000 = 上記式のあまりなので残り秒数がミリ秒で産出され、それを秒に直すために1000で割る
     const minutes = Math.floor(milliseconds / 60000)
     .toString()
     .padStart(2, '0');
-    // 1000ミリ秒 = 1秒 : 1500000ミリ秒(25分) / 1000(1秒) = 1500秒 : 1500秒 / 60(1分は60秒) = 25分
     const seconds = Math.floor((milliseconds % 60000) / 1000)
       .toString()
       .padStart(2, '0');
